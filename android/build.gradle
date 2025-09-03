@@ -1,0 +1,35 @@
+buildscript {
+    ext.kotlin_version = '1.9.0' // Keep the latest Kotlin version
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        // classpath 'com.android.tools.build:gradle:7.2.2' // Ensure the correct version
+        classpath 'com.android.tools.build:gradle:7.3.0'// Ensure the correct version
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.15'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Remove duplicate rootProject.buildDir definition
+rootProject.buildDir = "../build"
+
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.evaluationDependsOn(":app")
+}
+
+// Define the clean task only once
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
