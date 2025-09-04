@@ -74,15 +74,15 @@ class Orders {
   });
 
   Orders.fromJson(Map<String, dynamic> json) {
-    orderId = json['order_id'];
-    laundryId = json['laundry_id'];
-    orderType = json['order_type'];
-    orderTime = json['order_time'];
-    orderStatus = json['order_status'];
-    orderPrice = json['order_price'];
-    totalBags = json['total_bags'];
-    weight = json['weight'];
-    createdAt = json['created_at'];
+    orderId = json['order_id'] ?? 'N/A';
+    laundryId = json['laundry_id'] ?? 'N/A';
+    orderType = json['order_type'] ?? 'N/A';
+    orderTime = json['order_time'] ?? 'N/A';
+    orderStatus = json['order_status'] ?? 'N/A';
+    orderPrice = json['order_price'] ?? 'N/A';
+    totalBags = json['total_bags'] ?? 'N/A';
+    weight = json['weight'] ?? 'N/A';
+    createdAt = json['created_at'] ?? 'N/A';
     if (json['products'] != null && json['products'] is List) {
       products =
           (json['products'] as List).map((v) => Products.fromJson(v)).toList();
@@ -94,7 +94,7 @@ class Orders {
     laundromatDetails = json['laundromat_details'] != null
         ? LaundromatDetails.fromJson(json['laundromat_details'])
         : null;
-    driverName = json['driver_name'];
+    driverName = json['driver_name'] ?? 'Not Assigned';
   }
 
   Map<String, dynamic> toJson() {
@@ -125,10 +125,10 @@ class Products {
   Products({this.productName, this.variationName, this.quantity, this.price});
 
   Products.fromJson(Map<String, dynamic> json) {
-    productName = json['product_name'];
-    variationName = json['variation_name'];
-    quantity = json['quantity'];
-    price = json['price'];
+    productName = json['product_name'] ?? 'N/A';
+    variationName = json['variation_name'] ?? 'N/A';
+    quantity = json['quantity'] ?? 'N/A';
+    price = json['price'] ?? 'N/A';
   }
 
   Map<String, dynamic> toJson() {
@@ -151,11 +151,11 @@ class Customer {
   Customer({this.userId, this.name, this.email, this.mobile, this.address});
 
   Customer.fromJson(Map<String, dynamic> json) {
-    userId = json['user_id'];
-    name = json['name'];
-    email = json['email'];
-    mobile = json['mobile'];
-    address = json['address'];
+    userId = json['user_id'] ?? 'N/A';
+    name = json['name'] ?? 'N/A';
+    email = json['email'] ?? 'N/A';
+    mobile = json['mobile'] ?? 'N/A';
+    address = json['address'] ?? 'N/A';
   }
 
   Map<String, dynamic> toJson() {
@@ -178,10 +178,10 @@ class LaundromatDetails {
   LaundromatDetails({this.name, this.city, this.state, this.zipCode});
 
   LaundromatDetails.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    city = json['city'];
-    state = json['state'];
-    zipCode = json['zip_code'];
+    name = json['name'] ?? 'N/A';
+    city = json['city'] ?? 'N/A';
+    state = json['state'] ?? 'N/A';
+    zipCode = json['zip_code'] ?? 'N/A';
   }
 
   Map<String, dynamic> toJson() {
