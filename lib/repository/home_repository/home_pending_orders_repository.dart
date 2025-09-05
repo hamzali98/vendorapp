@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vendor_app/models/home/orders.dart';
 import '../../../data/network/network_api_services.dart';
 import '../../../res/app_url/app_url.dart';
 import '../../models/home/pending_orders_model.dart';
@@ -17,7 +18,7 @@ class HomePendingOrdersRepository {
   }
 
   /// Fetch Orders with Pagination
-  Future<HomePendingOrderModel?> fetchOrders({int page = 1}) async {
+  Future<OrdersModel?> fetchOrders({int page = 1}) async {
     String? token = await _getToken();
     String? laundromatId = await _getLaundromatId();
     // int? laundromatId =
@@ -53,7 +54,7 @@ class HomePendingOrdersRepository {
         return null;
       }
 
-      return HomePendingOrderModel.fromJson(response);
+      return OrdersModel.fromJson(response);
     } catch (e) {
       print("❌ Error Fetching Orders home_pending_orders_repository.dart: $e");
       return null;

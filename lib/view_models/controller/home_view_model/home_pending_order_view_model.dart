@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:vendor_app/data/response/status.dart';
+import 'package:vendor_app/models/home/orders.dart';
 import 'package:vendor_app/repository/home_repository/home_pending_orders_repository.dart';
-import '../../../models/home/pending_orders_model.dart';
 
 class HomePendingOrderController extends GetxController {
   final HomePendingOrdersRepository _repository = HomePendingOrdersRepository();
@@ -42,12 +42,12 @@ class HomePendingOrderController extends GetxController {
   @override
   void onClose() {
     // Dispose observables if needed
-    pendingOrdersList.clear();
-    rxRequestStatus.close();
-    currentPage.close();
-    totalPages.close();
-    totalpendingOrders.close();
-    pendingOrders.clear(); // Clear the list when closing
+    // pendingOrdersList.clear();
+    // rxRequestStatus.close();
+    // currentPage.close();
+    // totalPages.close();
+    // totalpendingOrders.close();
+    // pendingOrders.clear(); // Clear the list when closing
     super.onClose();
   }
 

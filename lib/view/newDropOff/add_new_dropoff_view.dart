@@ -112,7 +112,7 @@ class _AddNewDropOffState extends State<AddNewDropOff> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.primeryBlueColor,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+                            borderRadius: BorderRadius.circular(10)),
                       ),
                       child: const Text(
                         "Search",
@@ -129,11 +129,12 @@ class _AddNewDropOffState extends State<AddNewDropOff> {
               Obx(() {
                 if (searchUserController.rxRequestStatus.value ==
                     Status.LOADING) {
-                  return Center(
-                    child: const Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: CircularProgressIndicator()),
-                  );
+                  return Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.only(top: 20),
+                      child: CircularProgressIndicator(
+                        color: AppColor.primeryBlueColor,
+                      ));
                 } else if (searchUserController.rxRequestStatus.value ==
                     Status.ERROR) {
                   return const SizedBox();
@@ -180,7 +181,7 @@ class _AddNewDropOffState extends State<AddNewDropOff> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 12),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
+                                  borderRadius: BorderRadius.circular(10)),
                             ),
                             child: const Text(
                               "Update User",
@@ -204,7 +205,7 @@ class _AddNewDropOffState extends State<AddNewDropOff> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 12),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
+                                  borderRadius: BorderRadius.circular(10)),
                             ),
                             child: const Text(
                               "Create Dropoff",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:vendor_app/components/custom_appbar.dart';
 import '../../res/colors/app_color.dart';
 import 'oder_detail_screen.dart';
 
@@ -60,14 +61,15 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
 
     return Scaffold(
       backgroundColor: AppColor.bgcolor,
-      appBar: AppBar(
-        backgroundColor: AppColor.bgcolor,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColor.primeryBlueColor),
-          onPressed: () => Get.back(),
-        ),
-      ),
+      appBar: myCustomAppbar("Enter Code"),
+      // AppBar(
+      //   backgroundColor: AppColor.bgcolor,
+      //   elevation: 0,
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back, color: AppColor.primeryBlueColor),
+      //     onPressed: () => Get.back(),
+      //   ),
+      // ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

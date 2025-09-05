@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vendor_app/components/custom_appbar.dart';
 import 'package:vendor_app/components/order_details_widgets/build_card.dart';
 import 'package:vendor_app/components/order_details_widgets/build_row.dart';
 import 'package:vendor_app/utils/status_color.dart';
@@ -23,16 +24,17 @@ class OrderDetailsScreen extends StatelessWidget {
     orderController.confirmOrder(orderCode);
 
     return Scaffold(
-      appBar: AppBar(
-        title:
-            const Text("Order Details", style: TextStyle(color: Colors.white)),
-        backgroundColor: AppColor.primeryBlueColor,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-      ),
+      appBar: myCustomAppbar("Order Details"),
+      // AppBar(
+      //   title:
+      //       const Text("Order Details", style: TextStyle(color: Colors.white)),
+      //   backgroundColor: AppColor.primeryBlueColor,
+      //   centerTitle: true,
+      //   leading: IconButton(
+      //     icon: const Icon(Icons.arrow_back, color: Colors.white),
+      //     onPressed: () => Get.back(),
+      //   ),
+      // ),
       backgroundColor: Colors.grey[200],
       body: Obx(() {
         if (orderController.rxRequestStatus.value == Status.LOADING) {

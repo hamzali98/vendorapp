@@ -162,8 +162,8 @@ class NetworkApiServices extends BaseApiServices {
       // ✅ Convert `laundromat_id` into a JSON body
       Map<String, dynamic> body = {
         "laundromat_id": laundromatId, // 🔹 Send in request body
-        "page": 1,
-        "limit": 200
+        // "page": 1,
+        // "limit": 200
       };
 
       print("📡 Sending Request Body: ${jsonEncode(body)}");

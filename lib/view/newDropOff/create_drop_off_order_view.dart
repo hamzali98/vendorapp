@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:vendor_app/components/custom_appbar.dart';
 import 'package:vendor_app/res/colors/app_color.dart';
 import 'package:vendor_app/view/home/home_view.dart';
+import 'package:vendor_app/view/home/home_view_tabcontroller.dart';
 import '../../view_models/controller/create_new_drop_off/create_newdropoff_order_view_model.dart';
 import '../../view_models/controller/create_new_drop_off/laundromat_products_view_model.dart';
 import 'order_receipt_screen.dart';
@@ -13,22 +15,24 @@ class CreateOrderScreen extends StatelessWidget {
       Get.put(CreateDropOffOrderViewModel());
   final LaundromatProductsViewModel productController =
       Get.put(LaundromatProductsViewModel());
+  final HomeTabController hometabcontroller = Get.put(HomeTabController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        title: Text("Create Order",
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-        centerTitle: true,
-        backgroundColor: AppColor.primeryBlueColor,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-              color: Colors.white), // ✅ White back button
-          onPressed: () => Get.back(),
-        ),
-      ),
+      appBar: myCustomAppbar("Create Order"),
+      // AppBar(
+      //   title: Text("Create Order",
+      //       style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+      //   centerTitle: true,
+      //   backgroundColor: AppColor.primeryBlueColor,
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back,
+      //         color: Colors.white), // ✅ White back button
+      //     onPressed: () => Get.back(),
+      //   ),
+      // ),
       body: Obx(() => controller.loading.value
           ? Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -141,28 +145,31 @@ class CreateOrderScreen extends StatelessWidget {
                   SizedBox(height: 25),
 
                   /// 🔹 **Create Order Button**
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      if (controller.selectedProducts.isEmpty) {
-                        Get.snackbar(
-                            "Error", "Please select at least one product.",
-                            backgroundColor: Colors.red,
-                            colorText: Colors.white);
-                        return;
-                      }
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        if (controller.selectedProducts.isEmpty) {
+                          Get.snackbar(
+                              "Error", "Please select at least one product.",
+                              backgroundColor: Colors.red,
+                              colorText: Colors.white);
+                          return;
+                        }
 
-                      // ✅ Pass the showSuccessPopup function to handle navigation
-                      controller.createOrder(showSuccessPopup);
-                    },
-                    icon: Icon(Icons.check_circle, color: Colors.white),
-                    label: Text("Create Order",
-                        style: TextStyle(fontSize: 16, color: Colors.white)),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColor.primeryBlueColor,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
+                        // ✅ Pass the showSuccessPopup function to handle navigation
+                        controller.createOrder(showSuccessPopup);
+                      },
+                      icon: Icon(Icons.check_circle, color: Colors.white),
+                      label: Text("Create Order",
+                          style: TextStyle(fontSize: 16, color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColor.primeryBlueColor,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                      ),
                     ),
                   ),
 
@@ -386,13 +393,19 @@ class CreateOrderScreen extends StatelessWidget {
         actions: [
           TextButton(
             // onPressed: () => Get.back(),
-            onPressed: () => Get.offAll(HomeView()),
+            onPressed: () {
+              // hometabcontroller.changeTab(0);
+              Get.offAll(HomeView());
+            },
             child: Text("Cancel", style: TextStyle(color: Colors.grey)),
           ),
           TextButton(
             onPressed: () {
               // Get.back(); // Close dialog
+              // hometabcontroller.changeTab(0);
+
               Get.offAll(HomeView());
+
               Get.to(() => OrderReceiptScreen(
                     orderId: orderId,
                     customerId: customerId,

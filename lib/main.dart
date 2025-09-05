@@ -68,7 +68,8 @@ Future<void> setupFirebaseMessaging() async {
   try {
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-    NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
       alert: true,
       badge: true,
       sound: true,
@@ -79,7 +80,8 @@ Future<void> setupFirebaseMessaging() async {
 
     if (kIsWeb) {
       String? token = await FirebaseMessaging.instance.getToken(
-        vapidKey: "BEmQk1b-kVYxs-4hP7DUsZ1xC--CrzEbMPV3DecCFxcxEzS3x5Ty8oRFJEJbx81KpwI55JK_FynKjWhmCJSxFHc",
+        vapidKey:
+            "BEmQk1b-kVYxs-4hP7DUsZ1xC--CrzEbMPV3DecCFxcxEzS3x5Ty8oRFJEJbx81KpwI55JK_FynKjWhmCJSxFHc",
       );
       print('FCM Token: $token');
 
@@ -110,7 +112,8 @@ Future<void> setupFirebaseMessaging() async {
       }
     });
 
-    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
       _handleNotificationNavigation(initialMessage);
     }
@@ -143,6 +146,7 @@ class VendorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: false,
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         translations: Languages(),

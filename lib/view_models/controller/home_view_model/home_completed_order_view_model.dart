@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:vendor_app/data/response/status.dart'; // Assuming you have this enum for states
-import '../../../models/home/completed_orders_model.dart';
-import '../../../repository/home_repository/home_completed_orders_repository.dart';
+import 'package:vendor_app/models/home/orders.dart';
+import 'package:vendor_app/repository/home_repository/home_completed_orders_repository.dart';
 
 class HomeCompletedOrderController extends GetxController {
   final HomeCompletedOrdersRepository _repository =
@@ -44,13 +44,13 @@ class HomeCompletedOrderController extends GetxController {
   @override
   void onClose() {
     // Dispose Rx variables if necessary
-    rxRequestStatus.close();
+    // rxRequestStatus.close();
     // completedOrdersList.close();
-    completedOrdersList.clear(); // Clear the list when closing
-    currentPage.close();
-    totalPages.close();
-    totalCompletedOrders.close();
-    completedOrders.clear(); // Clear the list when closing
+    // completedOrdersList.clear(); // Clear the list when closing
+    // currentPage.close();
+    // totalPages.close();
+    // totalCompletedOrders.close();
+    // completedOrders.clear(); // Clear the list when closing
     super.onClose();
   }
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vendor_app/res/routes/routes_name.dart';
+import 'package:vendor_app/view/home/home_view_tabcontroller.dart';
+import 'package:vendor_app/view/home/order_details_screen2.dart';
 // import 'package:vendor_app/view/drawer/oder_detail_screen.dart';
 import 'package:vendor_app/view/home/pick_ups_view.dart';
 import 'package:vendor_app/view/home/pikup_deliver_view.dart';
@@ -39,10 +41,10 @@ class _HomeViewState extends State<HomeView>
   final HomePendingOrderController homePendingOrderController =
       Get.put(HomePendingOrderController());
   final UserPreference userPreference = UserPreference();
-  late TabController _tabController;
-  final PickupController _pickupController = PickupController();
-  final PickpDeliveryController _pickpDeliveryController =
-      PickpDeliveryController();
+  final hometabcontroller = Get.put(HomeTabController());
+  // final PickupController _pickupController = PickupController();
+  // final PickpDeliveryController _pickpDeliveryController =
+  //     PickpDeliveryController();
 
   @override
   void initState() {
@@ -59,24 +61,25 @@ class _HomeViewState extends State<HomeView>
         });
       }
     });
-    _tabController = TabController(length: 5, vsync: this, initialIndex: 1);
+
     homeCompletedOrderController
         .fetchCompletedOrders(); // Fetch completed orders when page loads
     homePendingOrderController
         .fetchPendingOrders(); // Fetch pending orders when page loads
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // _tabController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.bgcolor,
-      appBar: CustomAppBarHomeScreen(tabController: _tabController),
+      appBar: CustomAppBarHomeScreen(
+          tabController: hometabcontroller.tabController),
       drawer: Drawer(
         child: Column(
           children: [
@@ -146,7 +149,7 @@ class _HomeViewState extends State<HomeView>
                   ),
                   onTap: () {
                     Navigator.pop(context);
-                    _tabController.animateTo(0);
+                    hometabcontroller.changeTab(0);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -200,7 +203,7 @@ class _HomeViewState extends State<HomeView>
                   ),
                   onTap: () {
                     Navigator.pop(context);
-                    _tabController.animateTo(0);
+                    hometabcontroller.changeTab(1);
 
                     userPreference
                         .removeUser(); // Assuming you have this method implemented
@@ -220,7 +223,7 @@ class _HomeViewState extends State<HomeView>
         padding:
             const EdgeInsets.only(left: 8.0, top: 40, right: 8.0, bottom: 8.0),
         child: TabBarView(
-          controller: _tabController,
+          controller: hometabcontroller.tabController,
           children: [
             // Add New Tab
             AddNewDropOff(),
@@ -274,8 +277,8 @@ class _HomeViewState extends State<HomeView>
                                                   .completedOrders[index];
                                           return InkWell(
                                             onTap: () {
-                                              // Get.to(OrderDetailsScreen(
-                                              //     orderData: order.toJson()));
+                                              Get.to(OrderDetailsScreen2(
+                                                  orderData: order.toJson()));
                                             },
                                             child: ToGoCard(
                                               name: order.customer?.name ??
@@ -331,8 +334,8 @@ class _HomeViewState extends State<HomeView>
                                                   .pendingOrders[index];
                                           return InkWell(
                                             onTap: () {
-                                              // Get.to(OrderDetailsScreen(
-                                              //     orderData: order.toJson()));
+                                              Get.to(OrderDetailsScreen2(
+                                                  orderData: order.toJson()));
                                             },
                                             child: DeliveryRequestCard(
                                               address:

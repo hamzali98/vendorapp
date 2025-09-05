@@ -1,3 +1,5 @@
+// single order model used every where in the code for orders
+// not using this model for drop off orders.
 class OrdersModel {
   String? responseCode;
   String? result;
@@ -75,7 +77,7 @@ class Orders {
 
   Orders.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'] ?? 'N/A';
-    laundryId = json['laundry_id'] ?? 'N/A';
+    laundryId = json['laundry_id'] ?? json['laundromat_id'] ?? 'N/A';
     orderType = json['order_type'] ?? 'N/A';
     orderTime = json['order_time'] ?? 'N/A';
     orderStatus = json['order_status'] ?? 'N/A';

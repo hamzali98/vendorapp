@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vendor_app/view/drawer/receive_delivery_view.dart';
+import 'package:vendor_app/view/home/order_details_screen2.dart';
 // import 'package:vendor_app/view/orderDetailsScreen/ordersDetailsScrenn.dart';
 
 import '../../components/general_app_bar.dart';
@@ -62,11 +63,11 @@ class _DropOffTabState extends State<DropOffTab> {
                 child: InkWell(
                   onTap: () {
                     // Get.to(() => OrderdetailsScreen(oid: order.id));
-                    // Get.to(OrderDetailsScreen(orderData: order.toJson()));
+                    Get.to(OrderDetailsScreen2(orderData: order.toJson()));
                   },
                   child: OrderCard(
                     name: order.customer?.name ?? "Unknown Customer",
-                    address: order.customer?.email ?? "No Address Available",
+                    address: order.customer?.mobile ?? "No Address Available",
                     time: order.orderTime ?? "N/A",
                     type: order.orderType ?? "Unknown",
                     driver: order.driverName ?? "No Driver Assigned",
@@ -192,7 +193,7 @@ class OrderCard extends StatelessWidget {
           // Address
           Row(
             children: [
-              Icon(Icons.email, color: Colors.green, size: 22),
+              Icon(Icons.phone, color: Colors.green, size: 22),
               // Icon(Icons.location_on, color: Colors.redAccent, size: 22),
               const SizedBox(width: 6),
               Expanded(

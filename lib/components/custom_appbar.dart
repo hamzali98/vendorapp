@@ -8,7 +8,7 @@ PreferredSizeWidget myCustomAppbar(String title) {
       borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
     ),
     centerTitle: true,
-    title: const Text('Order Details'),
+    title: Text(title),
     backgroundColor: AppColor.primeryBlueColor,
     foregroundColor: Colors.white,
   );
