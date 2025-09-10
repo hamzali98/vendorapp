@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vendor_app/models/home/completed_orders_model.dart';
+import 'package:vendor_app/models/home/orders.dart';
 import '../../../data/network/network_api_services.dart';
 import '../../../res/app_url/app_url.dart';
 import '../../models/activity/activity_history_model.dart';
@@ -26,7 +27,7 @@ class HomeCompletedOrdersRepository {
   }
 
   /// **✅ Fetch Orders with Pagination**
-  Future<HomeCompletedOrderModel?> fetchOrders({
+  Future<OrdersModel?> fetchOrders({
     int page = 1,
     // int limit = 10,
     // String? orderType, // Optional filter
@@ -59,7 +60,7 @@ class HomeCompletedOrdersRepository {
         AppUrl.homeCompleteOdrApi,
       );
 
-      return HomeCompletedOrderModel.fromJson(response);
+      return OrdersModel.fromJson(response);
     } catch (e) {
       print(
           "❌ Error Fetching Orders in home_completed_orders_repository.dart: $e");

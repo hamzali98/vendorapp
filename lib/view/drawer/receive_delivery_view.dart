@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vendor_app/components/custom_appbar.dart';
+import 'package:vendor_app/utils/Custom_widget.dart';
 import 'package:vendor_app/view/drawer/qr_code_view.dart';
 
 import '../../components/round_button.dart';
@@ -17,7 +19,7 @@ class ReceiveDelivery extends StatefulWidget {
 class _ReceiveDeliveryState extends State<ReceiveDelivery> {
   final List<FocusNode> focusNodes = List.generate(4, (_) => FocusNode());
   final List<TextEditingController> controllers =
-  List.generate(4, (_) => TextEditingController());
+      List.generate(4, (_) => TextEditingController());
 
   @override
   void dispose() {
@@ -34,7 +36,6 @@ class _ReceiveDeliveryState extends State<ReceiveDelivery> {
     Get.to(() => QrCodeScannerScreen());
   }
 
-
   void _navigateToEnterCode() async {
     final enteredCode = await Get.to(() => EnterCodeScreen());
 
@@ -43,23 +44,22 @@ class _ReceiveDeliveryState extends State<ReceiveDelivery> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColor.bgcolor,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColor.primeryBlueColor),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
+      appBar: myCustomAppbar("Receive Delivery"),
+      // AppBar(
+      //   backgroundColor: AppColor.bgcolor,
+      //   elevation: 0,
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back, color: AppColor.primeryBlueColor),
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //   ),
+      // ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
         decoration: BoxDecoration(color: AppColor.bgcolor),
@@ -67,27 +67,27 @@ class _ReceiveDeliveryState extends State<ReceiveDelivery> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: size.height * 0.02,
-                    horizontal: size.width * 0.05,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColor.primeryBlueColor),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'Receive Delivery',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
+              // Align(
+              //   alignment: Alignment.center,
+              //   child: Container(
+              //     padding: EdgeInsets.symmetric(
+              //       vertical: size.height * 0.02,
+              //       horizontal: size.width * 0.05,
+              //     ),
+              //     decoration: BoxDecoration(
+              //       border: Border.all(color: AppColor.primeryBlueColor),
+              //       borderRadius: BorderRadius.circular(20),
+              //     ),
+              //     child: const Text(
+              //       'Receive Delivery',
+              //       style: TextStyle(
+              //         color: Colors.black,
+              //         fontSize: 20,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               const SizedBox(height: 40),
               Center(
                 child: Container(

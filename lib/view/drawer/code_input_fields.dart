@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:vendor_app/components/custom_appbar.dart';
 import '../../res/colors/app_color.dart';
 import 'oder_detail_screen.dart';
 
@@ -11,7 +13,7 @@ class EnterCodeScreen extends StatefulWidget {
 class _EnterCodeScreenState extends State<EnterCodeScreen> {
   final List<FocusNode> focusNodes = List.generate(4, (_) => FocusNode());
   final List<TextEditingController> controllers =
-  List.generate(4, (_) => TextEditingController());
+      List.generate(4, (_) => TextEditingController());
 
   @override
   void dispose() {
@@ -39,7 +41,6 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
     Get.to(() => OrderDetailsScreen(orderCode: enteredCode));
   }
 
-
   /// ✅ **Handle Digit Entry & Move Focus**
   void _onDigitEntered(int index, String value) {
     if (value.isNotEmpty) {
@@ -49,6 +50,9 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
         _submitCode();
       }
     }
+    if (value.isEmpty && index > 0) {
+      FocusScope.of(context).requestFocus(focusNodes[index - 1]);
+    }
   }
 
   @override
@@ -56,14 +60,16 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColor.bgcolor,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColor.primeryBlueColor),
-          onPressed: () => Get.back(),
-        ),
-      ),
+      backgroundColor: AppColor.bgcolor,
+      appBar: myCustomAppbar("Enter Code"),
+      // AppBar(
+      //   backgroundColor: AppColor.bgcolor,
+      //   elevation: 0,
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back, color: AppColor.primeryBlueColor),
+      //     onPressed: () => Get.back(),
+      //   ),
+      // ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -80,29 +86,39 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
               children: List.generate(4, (index) {
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 8),
-                  width: size.width * 0.12,
-                  height: size.width * 0.12,
-                  child: TextField(
-                    controller: controllers[index],
-                    focusNode: focusNodes[index],
-                    keyboardType: TextInputType.number,
-                    maxLength: 1,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      counterText: "",
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                        BorderSide(color: AppColor.primeryBlueColor, width: 2),
-                        borderRadius: BorderRadius.circular(10),
+                  width: size.width * 0.15,
+                  height: size.width * 0.15,
+                  // decoration: BoxDecoration(
+                  //   border:
+                  //       Border.all(color: AppColor.primeryBlueColor, width: 2),
+                  //   borderRadius: BorderRadius.circular(10),
+                  // ),
+                  child: Center(
+                    child: TextField(
+                      controller: controllers[index],
+                      focusNode: focusNodes[index],
+                      keyboardType: TextInputType.number,
+                      maxLength: 1,
+                      textAlign: TextAlign.center,
+                      cursorHeight: 20,
+                      cursorColor: AppColor.primeryBlueColor,
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      decoration: InputDecoration(
+                        counterText: "",
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColor.primeryBlueColor, width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColor.primeryBlueColor, width: 4),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                        BorderSide(color: AppColor.primeryBlueColor, width: 3),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      onChanged: (value) => _onDigitEntered(index, value),
                     ),
-                    onChanged: (value) => _onDigitEntered(index, value),
                   ),
                 );
               }),
@@ -119,7 +135,8 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
               ),
-              child: Text("Confirm", style: TextStyle(fontSize: 18, color: Colors.white)),
+              child: Text("Confirm",
+                  style: TextStyle(fontSize: 18, color: Colors.white)),
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vendor_app/components/custom_appbar.dart';
 import 'package:vendor_app/res/colors/app_color.dart';
 import 'package:vendor_app/view/home/home_view.dart';
 
@@ -21,16 +22,17 @@ class OrderReceiptScreen extends StatelessWidget {
     controller.fetchReceipt(orderId, customerId, laundromatId);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Order Receipt", style: TextStyle(color: Colors.white)),
-        backgroundColor: AppColor.primeryBlueColor,
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          // onPressed: () => Get.back(),
-          onPressed: () => Get.offAll(HomeView()),
-        ),
-      ),
+      appBar: myCustomAppbar("Order Receipt"),
+      // AppBar(
+      //   title: Text("Order Receipt", style: TextStyle(color: Colors.white)),
+      //   backgroundColor: AppColor.primeryBlueColor,
+      //   centerTitle: true,
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back, color: Colors.white),
+      //     // onPressed: () => Get.back(),
+      //     onPressed: () => Get.offAll(HomeView()),
+      //   ),
+      // ),
       backgroundColor: Colors.grey[200],
       body: Obx(() => controller.isLoading.value
           ? Center(child: CircularProgressIndicator())
@@ -51,7 +53,7 @@ class OrderReceiptScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildCard([
-            buildRow("Order ID", "#${order?.orderQId ?? 'N/A'}"),
+            buildRow("Order QID", order?.orderQId ?? 'N/A'),
             buildRow("Order Date", order?.orderDate ?? 'N/A'),
             buildRow("Order Time", order?.orderTime ?? 'N/A'),
             buildRow("Order Type", order?.orderType ?? 'N/A'),
@@ -72,24 +74,27 @@ class OrderReceiptScreen extends StatelessWidget {
           SizedBox(height: 15),
           buildCard([
             buildRow("Payment Method", order?.payment ?? 'N/A'),
-            buildRow("Order Price", "₹${order?.orderPrice ?? 'N/A'}"),
+            buildRow("Order Price", "\$${order?.orderPrice ?? 'N/A'}"),
             buildStatusRow("Payment Status", order?.paymentStatus ?? 'N/A'),
           ]),
           SizedBox(height: 20),
           Center(
-            child: ElevatedButton.icon(
-              onPressed: () {
-                Get.snackbar("Download", "Receipt downloaded successfully!",
-                    backgroundColor: Colors.green, colorText: Colors.white);
-              },
-              icon: Icon(Icons.download, color: Colors.white),
-              label: Text("Download Receipt",
-                  style: TextStyle(fontSize: 16, color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColor.primeryBlueColor,
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Get.snackbar("Download", "Receipt downloaded successfully!",
+                      backgroundColor: Colors.green, colorText: Colors.white);
+                },
+                icon: Icon(Icons.download, color: Colors.white),
+                label: Text("Download Receipt",
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColor.primeryBlueColor,
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
               ),
             ),
           ),
@@ -138,9 +143,13 @@ class OrderReceiptScreen extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-                color: statusColor, borderRadius: BorderRadius.circular(8)),
+                color: statusColor.withAlpha(60),
+                borderRadius: BorderRadius.circular(8)),
             child: Text(status,
-                style: TextStyle(fontSize: 14, color: Colors.white)),
+                style: TextStyle(
+                    fontSize: 14,
+                    color: statusColor,
+                    fontWeight: FontWeight.bold)),
           ),
         ],
       ),

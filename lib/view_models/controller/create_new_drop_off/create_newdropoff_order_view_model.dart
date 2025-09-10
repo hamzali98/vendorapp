@@ -224,6 +224,7 @@ class CreateDropOffOrderViewModel extends GetxController {
     _getLaundromatId();
     fetchAllProductPrices(); // ✅ Fetch product prices from API
   }
+
   /// **Fetch laundromat ID from SharedPreferences**
   Future<void> _getLaundromatId() async {
     String? id = await userPreference.getLaundromatID(); // <-- Correct method
@@ -234,8 +235,6 @@ class CreateDropOffOrderViewModel extends GetxController {
       print("🚨 ERROR: Laundromat ID not found!");
     }
   }
-
-
 
   /// **Fetch all product base prices from API**
   Future<void> fetchAllProductPrices() async {
@@ -546,7 +545,7 @@ class CreateDropOffOrderViewModel extends GetxController {
       "customer_id": customerId.value,
       "laundromat_id": laundromatId.value,
       "order_type": orderType.value,
-      "order_status": "pending",
+      "order_status": "in process",
       "pickuptime": ["17:56", "17:56"],
       "product_type": productTypes,
       "variation_id": variationIds,

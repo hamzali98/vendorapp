@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vendor_app/components/custom_appbar.dart';
 import '../../res/colors/app_color.dart';
 import '../../res/routes/routes_name.dart';
 import '../../view_models/controller/create_new_drop_off/update_user_view_model.dart';
@@ -61,7 +62,8 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
     }
 
     Map<String, dynamic> updateData = {
-      "user_id": userId,
+      // "user_id": userId,
+      "user_id": "test",
       "name": nameController.text,
       "mobile": phoneController.text,
       "email": emailController.text,
@@ -74,25 +76,23 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
     };
     print("🔹 Update Data: $updateData");
 
-    // try {
-    //   await updateUserController.updateUser(updateData);
-    //   showDialog(
-    //     context: context,
-    //     barrierDismissible: false,
-    //     builder: (context) => Center(child: CircularProgressIndicator()),
-    //   );
-    //   Navigator.pop(context);
-    //   // ✅ Navigate to Previous Screen after 2 seconds
-    //   Future.delayed(const Duration(seconds: 2), () {
-    //     // Get.off(() => AddNewDropOff()); // 🔹 Replace with actual previous screen widget
-    //     Get.back();
-    //     //Get.off(() => AddNewDropOff(), transition: Transition.fadeIn);
-    //     //Get.toNamed(RouteName.addNew);
-    //     Get.offNamed(RouteName.addNew);
-    //   });
-    // } catch (error) {
-
-    // }
+    try {
+      await updateUserController.updateUser(updateData);
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(child: CircularProgressIndicator()),
+      );
+      Navigator.pop(context);
+      // ✅ Navigate to Previous Screen after 2 seconds
+      Future.delayed(const Duration(seconds: 2), () {
+        // Get.off(() => AddNewDropOff()); // 🔹 Replace with actual previous screen widget
+        Get.back();
+        //Get.off(() => AddNewDropOff(), transition: Transition.fadeIn);
+        //Get.toNamed(RouteName.addNew);
+        Get.offNamed(RouteName.addNew);
+      });
+    } catch (error) {}
   }
 
   Widget _buildTextField(
@@ -123,14 +123,15 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Update User",
-          style: TextStyle(color: AppColor.bgcolor),
-        ),
-        backgroundColor: AppColor.primeryBlueColor,
-        iconTheme: const IconThemeData(color: AppColor.bgcolor),
-      ),
+      appBar: myCustomAppbar("Update User"),
+      // AppBar(
+      //   title: const Text(
+      //     "Update User",
+      //     style: TextStyle(color: AppColor.bgcolor),
+      //   ),
+      //   backgroundColor: AppColor.primeryBlueColor,
+      //   iconTheme: const IconThemeData(color: AppColor.bgcolor),
+      // ),
       backgroundColor: Colors.grey[200],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -194,28 +195,33 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
 
               // Align Update Button to Right
               Obx(() {
-                return Align(
-                  alignment: Alignment.center,
-                  child: updateUserController.isLoading.value
-                      ? const CircularProgressIndicator()
-                      : ElevatedButton(
-                          onPressed: _updateUser,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColor.primeryBlueColor,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 12),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                          ),
-                          child: const Text(
+                return SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _updateUser,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColor.primeryBlueColor,
+                      // padding: const EdgeInsets.symmetric(
+                      //     horizontal: 24, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    child: updateUserController.isLoading.value
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : const Text(
                             "Update",
                             style: TextStyle(
                                 color: Colors.white,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold),
                           ),
-                        ),
+                  ),
                 );
               }),
+              SizedBox(height: 10),
             ],
           ),
         ),

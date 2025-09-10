@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vendor_app/components/custom_appbar.dart';
+import 'package:vendor_app/components/order_details_widgets/build_card.dart';
+import 'package:vendor_app/components/order_details_widgets/build_row.dart';
+import 'package:vendor_app/utils/status_color.dart';
 import 'package:vendor_app/view/drawer/update_tillId_order_view.dart';
 import '../../../res/colors/app_color.dart';
 import '../../data/response/status.dart';
-import '../../view_models/controller/scan_confirm/confirm_oder_by_tillId_view_model.dart';
+import '../../view_models/controller/scan_confirm/confirm_oder_by_tillid_view_model.dart';
 // Import the new screen
 
 class OrderDetailsScreen extends StatelessWidget {
   final String orderCode; // ✅ Receive order code
 
-  OrderDetailsScreen({required this.orderCode});
+  OrderDetailsScreen({super.key, required this.orderCode});
 
   final ConfirmOrderByIdController orderController =
       Get.put(ConfirmOrderByIdController());
@@ -20,21 +24,23 @@ class OrderDetailsScreen extends StatelessWidget {
     orderController.confirmOrder(orderCode);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Order Details", style: TextStyle(color: Colors.white)),
-        backgroundColor: AppColor.primeryBlueColor,
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-      ),
+      appBar: myCustomAppbar("Order Details"),
+      // AppBar(
+      //   title:
+      //       const Text("Order Details", style: TextStyle(color: Colors.white)),
+      //   backgroundColor: AppColor.primeryBlueColor,
+      //   centerTitle: true,
+      //   leading: IconButton(
+      //     icon: const Icon(Icons.arrow_back, color: Colors.white),
+      //     onPressed: () => Get.back(),
+      //   ),
+      // ),
       backgroundColor: Colors.grey[200],
       body: Obx(() {
         if (orderController.rxRequestStatus.value == Status.LOADING) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (orderController.rxRequestStatus.value == Status.ERROR) {
-          return Center(
+          return const Center(
               child: Text("Order Not Found!",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)));
         } else {
@@ -43,7 +49,7 @@ class OrderDetailsScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -51,11 +57,12 @@ class OrderDetailsScreen extends StatelessWidget {
                       buildCard([
                         buildRow("Receipt No", "${order?.orderId ?? 'N/A'}"),
                         buildRow("Order Type", order?.orderType ?? 'N/A'),
-                        buildRow("Order Status", order?.orderStatus ?? 'N/A'),
-                        buildRow(
-                            "Order Price", "${order?.orderPrice ?? 'N/A'}"),
+                        buildRow("Order Status", order?.orderStatus ?? 'N/A',
+                            valueColor:
+                                statusColor(order?.orderStatus ?? 'pending')),
+                        buildRow("Order Price", order?.orderPrice ?? 'N/A'),
                       ]),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
 
                       /// 🔹 **Customer Details**
                       buildCard([
@@ -69,7 +76,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             order?.customerAddress?.deliveryInstruction ??
                                 'N/A'),
                       ]),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
 
                       /// 🔹 **Laundromat Details**
                       buildCard([
@@ -80,20 +87,20 @@ class OrderDetailsScreen extends StatelessWidget {
                         buildRow(
                             "State", order?.laundromatDetails?.state ?? 'N/A'),
                       ]),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
 
                       /// 🔹 **Order Summary**
                       buildCard([
                         buildRow("Total Bags", order?.totalBags ?? 'N/A'),
-                        buildRow("Weight", "${order?.weight} lb" ?? 'N/A'),
+                        buildRow("Weight", "${order?.weight} lb"),
                       ]),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
                       /// 🔹 **Products**
-                      Text("Products",
+                      const Text("Products",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Column(
                         children: order?.products?.map((product) {
                               return buildCard([
@@ -111,7 +118,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             }).toList() ??
                             [],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -119,7 +126,7 @@ class OrderDetailsScreen extends StatelessWidget {
 
               /// 🔹 **Update Order Button**
               Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -128,11 +135,11 @@ class OrderDetailsScreen extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.primeryBlueColor,
-                      padding: EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                     ),
-                    child: Text("Update Order",
+                    child: const Text("Update Order",
                         style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
                 ),
@@ -141,48 +148,6 @@ class OrderDetailsScreen extends StatelessWidget {
           );
         }
       }),
-    );
-  }
-
-  /// **Reusable Card Widget**
-  Widget buildCard(List<Widget> children) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: EdgeInsets.all(14),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, children: children),
-      ),
-    );
-  }
-
-  /// **Row for Displaying Order Details**
-  Widget buildRow(String title, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 130, // Adjust width as needed for your titles
-            child: Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 16),
-              softWrap: true,
-              maxLines: null,
-              overflow: TextOverflow.visible,
-              textAlign: TextAlign.right,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -7,6 +7,8 @@ class AppUrl {
       '$baseUrl/laundry_api/laundry_pickup_orders.php';
   static const String dropOffApi =
       '$baseUrl/laundry_api/laundry_dropofforders.php';
+  static const String orderconfirmApi =
+      '$baseUrl/laundry_api/change_status.php';
   static const String pickDropApi =
       '$baseUrl/laundry_api/laundry_pickup_delivery_orders.php';
   //static const String addNewApi ='$baseUrl/order_api/order.php';
